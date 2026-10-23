@@ -8,7 +8,7 @@
 
 MSKTerm is a Windows desktop application for everyday work. Connect to Linux servers over SSH, work with COM ports, transfer files over SFTP, edit configs, manage SSH keys and optionally ask an AI assistant in the same session — without constantly switching between programs.
 
-**Version:** `0.1.9` · **Platform:** Windows 10 / 11 (x64) · **License:** free for non-commercial use
+**Version:** `0.1.12` · **Platform:** Windows 10 / 11 (x64) · **License:** free for non-commercial use
 
 **[⬇ Download](https://github.com/msksrv/MSKTerm/releases/latest)** · **[Русский](README.md)**
 
@@ -28,10 +28,10 @@ It is not just "a terminal with extra buttons". It covers scenarios that matter 
 
 ## Download and run
 
-1. Download `mskterm-0.1.9.exe` from the [releases page](https://github.com/msksrv/MSKTerm/releases/latest).
+1. Download `mskterm-0.1.12.exe` from the [releases page](https://github.com/msksrv/MSKTerm/releases/latest).
 2. Verify the SHA-256 checksum (listed in the release notes):
    ```powershell
-   Get-FileHash .\mskterm-0.1.9.exe -Algorithm SHA256
+   Get-FileHash .\mskterm-0.1.12.exe -Algorithm SHA256
    ```
 3. Run it. No installation needed — it is a single executable.
 4. On first start choose a master password: it encrypts the vault with your connections, passwords and keys.
@@ -240,11 +240,11 @@ MSKTerm detects which archivers are installed on the server, remembers the resul
 
 ### 11. AI assistant (bring your own key)
 
-Optional helper on the **AI** tab of an active SSH session. The key and settings live in the encrypted vault; secrets, keys and (optionally) addresses are masked before anything is sent to the cloud.
+Optional helper on the **AI** tab of an active SSH session. The key and settings live in the encrypted vault; secrets and keys are always masked; hosts/e-mails are optional; **IPs are left unmasked by default** (useful for diagnostics — toggle in settings).
 
 - **Bring your own key:** OpenAI, Anthropic, Google Gemini, xAI Grok, DeepSeek, Mistral, Alibaba Qwen, OpenRouter or any OpenAI-compatible endpoint.
 - Modes **Observer / Assistant / Agent** — from explaining the screen to step-by-step diagnostics on the server.
-- In Agent mode the model calls safe tools (`read_file`, `service_status`); steps appear on the right; risky actions need confirmation.
+- In Agent mode — read-only tools (`read_file`, `service_status`, `failed_units`, `disk_usage`, `memory`, `uptime`, `listen_ports`); steps appear on the right; risky actions need confirmation.
 - Context: selected terminal text, the screen, a file from the editor; follow-ups keep chat history (session-only, not saved to disk).
 - For models like `gpt-6-luna`, tool calls on Chat Completions set `reasoning_effort: none` automatically.
 
@@ -263,7 +263,7 @@ Optional helper on the **AI** tab of an active SSH session. The key and settings
 | Fix a config and roll back | Built-in editor, diff and encrypted history |
 | Edit a root-owned file | Files and editor via sudo |
 | Make a backup on the server | Archive with date and time in the name, no download |
-| Diagnose a service / log | AI agent: read files and service status on the server |
+| Diagnose a service / log | AI agent: read-only tools (logs, units, disk, memory, ports) |
 | Set up key login | Generate, install, verify login, configure sshd |
 | Move connections to another PC | Encrypted `.msktx` |
 | Switch from WinSCP | Import of saved sites and keys |
