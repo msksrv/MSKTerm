@@ -8,7 +8,7 @@
 
 MSKTerm is a Windows desktop application for everyday work. Connect to Linux servers over SSH, work with COM ports, transfer files over SFTP, edit configs, manage SSH keys and optionally ask an AI assistant in the same session — without constantly switching between programs.
 
-**Version:** `0.1.12` · **Platform:** Windows 10 / 11 (x64) · **License:** free for non-commercial use
+**Version:** `0.1.15` · **Platform:** Windows 10 / 11 (x64) · **License:** free for non-commercial use
 
 **[⬇ Download](https://github.com/msksrv/MSKTerm/releases/latest)** · **[Русский](README.md)**
 
@@ -28,10 +28,10 @@ It is not just "a terminal with extra buttons". It covers scenarios that matter 
 
 ## Download and run
 
-1. Download `mskterm-0.1.12.exe` from the [releases page](https://github.com/msksrv/MSKTerm/releases/latest).
+1. Download `mskterm-0.1.15.exe` from the [releases page](https://github.com/msksrv/MSKTerm/releases/latest).
 2. Verify the SHA-256 checksum (listed in the release notes):
    ```powershell
-   Get-FileHash .\mskterm-0.1.12.exe -Algorithm SHA256
+   Get-FileHash .\mskterm-0.1.15.exe -Algorithm SHA256
    ```
 3. Run it. No installation needed — it is a single executable.
 4. On first start choose a master password: it encrypts the vault with your connections, passwords and keys.
@@ -133,7 +133,8 @@ A classic dual-pane file manager: your computer on the left, the server on the r
 - Background operations with progress and cancel in the "Operations" panel.
 - Local files are deleted to the Windows Recycle Bin.
 - **sudo** mode: server files are read and written as root (requires sudo rights).
-- **Permissions (chmod):** from the context menu — octal mode (e.g. `644`, `755`) and rwx checkboxes for owner/group/others; optional recursive apply for directories.
+- **Permissions (chmod):** from the context menu — octal mode (e.g. `644`, `755`) and rwx checkboxes for owner/group/others; optional recursive apply for directories (symlinks skipped).
+- **Σ Size** (`Alt+Enter` / context menu): size of selected files and folders — per-item sizes, total, file/folder counts, skips and errors. On the server a fast one-shot SSH walk runs first; if unavailable, falls back to SFTP (including sudo). Cancellable with a partial result. Symlinks and special files are skipped; on-disk usage may differ from the sum of logical sizes.
 - File context menu, selection and folder totals in the status line.
 
 **Hotkeys:**
@@ -244,9 +245,9 @@ Optional helper on the **AI** tab of an active SSH session. The key and settings
 
 - **Bring your own key:** OpenAI, Anthropic, Google Gemini, xAI Grok, DeepSeek, Mistral, Alibaba Qwen, OpenRouter or any OpenAI-compatible endpoint.
 - Modes **Observer / Assistant / Agent** — from explaining the screen to step-by-step diagnostics on the server.
-- In Agent mode — read-only tools (`read_file`, `service_status`, `failed_units`, `disk_usage`, `memory`, `uptime`, `listen_ports`); steps appear on the right; risky actions need confirmation.
+- In Agent mode — an expanded tool set (18, including system info, processes, directories, file search, journal, network/DNS/TCP, service configs); steps appear on the right. Text-file edit proposals: diff, apply after confirmation, conflict checks, versions in the encrypted history.
+- Model exchange: OpenAI Responses API, native tool calls for OpenAI-compatible and Anthropic; task and tool results kept across steps; retry after API errors without re-running finished actions; reasoning level choice for models that support it.
 - Context: selected terminal text, the screen, a file from the editor; follow-ups keep chat history (session-only, not saved to disk).
-- For models like `gpt-6-luna`, tool calls on Chat Completions set `reasoning_effort: none` automatically.
 
 > Answers come from a third-party model and may be wrong. Always review commands and config changes before running them. MSKTerm does not log you into a vendor account — only what you send with your own key leaves the PC.
 
@@ -263,7 +264,8 @@ Optional helper on the **AI** tab of an active SSH session. The key and settings
 | Fix a config and roll back | Built-in editor, diff and encrypted history |
 | Edit a root-owned file | Files and editor via sudo |
 | Make a backup on the server | Archive with date and time in the name, no download |
-| Diagnose a service / log | AI agent: read-only tools (logs, units, disk, memory, ports) |
+| Measure a folder size on the server | Σ Size / Alt+Enter (fast SSH, SFTP fallback) |
+| Diagnose a service / log | AI agent: expanded tools and edits with diff |
 | Set up key login | Generate, install, verify login, configure sshd |
 | Move connections to another PC | Encrypted `.msktx` |
 | Switch from WinSCP | Import of saved sites and keys |
