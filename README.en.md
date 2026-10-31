@@ -8,7 +8,7 @@
 
 MSKTerm is a Windows desktop application for everyday work. Connect to Linux servers over SSH, work with COM ports, transfer files over SFTP, edit configs, manage SSH keys and optionally ask an AI assistant in the same session — without constantly switching between programs.
 
-**Version:** `0.1.19` · **Platform:** Windows 10 / 11 (x64) · **License:** free for non-commercial use
+**Version:** `0.1.20` · **Platform:** Windows 10 / 11 (x64) · **License:** free for non-commercial use
 
 **[⬇ Download](https://github.com/msksrv/MSKTerm/releases/latest)** · **[Русский](README.md)**
 
@@ -28,10 +28,10 @@ It is not just "a terminal with extra buttons". It covers scenarios that matter 
 
 ## Download and run
 
-1. Download `mskterm-0.1.19.exe` from the [releases page](https://github.com/msksrv/MSKTerm/releases/latest).
+1. Download `mskterm-0.1.20.exe` from the [releases page](https://github.com/msksrv/MSKTerm/releases/latest).
 2. Verify the SHA-256 checksum (listed in the release notes):
    ```powershell
-   Get-FileHash .\mskterm-0.1.19.exe -Algorithm SHA256
+   Get-FileHash .\mskterm-0.1.20.exe -Algorithm SHA256
    ```
 3. Run it. No installation needed — it is a single executable.
 4. On first start choose a master password: it encrypts the vault with your connections, passwords, keys and notes.
