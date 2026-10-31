@@ -8,7 +8,7 @@
 
 MSKTerm is a Windows desktop application for everyday work. Connect to Linux servers over SSH, work with COM ports, transfer files over SFTP, edit configs, manage SSH keys and optionally ask an AI assistant in the same session — without constantly switching between programs.
 
-**Version:** `0.1.15` · **Platform:** Windows 10 / 11 (x64) · **License:** free for non-commercial use
+**Version:** `0.1.19` · **Platform:** Windows 10 / 11 (x64) · **License:** free for non-commercial use
 
 **[⬇ Download](https://github.com/msksrv/MSKTerm/releases/latest)** · **[Русский](README.md)**
 
@@ -28,13 +28,13 @@ It is not just "a terminal with extra buttons". It covers scenarios that matter 
 
 ## Download and run
 
-1. Download `mskterm-0.1.15.exe` from the [releases page](https://github.com/msksrv/MSKTerm/releases/latest).
+1. Download `mskterm-0.1.19.exe` from the [releases page](https://github.com/msksrv/MSKTerm/releases/latest).
 2. Verify the SHA-256 checksum (listed in the release notes):
    ```powershell
-   Get-FileHash .\mskterm-0.1.15.exe -Algorithm SHA256
+   Get-FileHash .\mskterm-0.1.19.exe -Algorithm SHA256
    ```
 3. Run it. No installation needed — it is a single executable.
-4. On first start choose a master password: it encrypts the vault with your connections, passwords and keys.
+4. On first start choose a master password: it encrypts the vault with your connections, passwords, keys and notes.
 
 **Requirements:** Windows 10 or 11, 64-bit; a GPU with DirectX 12, Vulkan or OpenGL support (virtually any modern one).
 
@@ -48,7 +48,7 @@ It is not just "a terminal with extra buttons". It covers scenarios that matter 
 
 ![Lock screen](screenshots/01-lock.png)
 
-Passwords, connection settings and private SSH keys are stored in a single encrypted file, `vault.bin`.
+Passwords, connection settings, private SSH keys and secure notes are stored in a single encrypted file, `vault.bin`.
 
 | Component | Implementation |
 |---|---|
@@ -176,6 +176,7 @@ MSKTerm detects which archivers are installed on the server, remembers the resul
 ![Editor with search](screenshots/08-editor.png)
 
 - Edit server files (`F4` in the file manager) and local files; multiple files in tabs.
+- **Syntax highlighting:** about 220 grammars (SH/Bash, JSON, YAML, TOML, INI, Python, PHP, JS/TS, HTML, CSS, SQL, PowerShell, Rust and more), auto-detect by extension, name, path and `#!`, manual pick with search and a Plain text mode. Grammars are built in — no downloads; works with search, background parse with cache and limits for large files.
 - Case-sensitive or insensitive search, replace (`Ctrl+F`, `Ctrl+H`), go to line (`Ctrl+G`), Undo/Redo, save with `Ctrl+S`.
 - Word wrap, font size, line numbers; the status line shows cursor position, line endings, encoding and size.
 - "± Changes" compares the current text with the saved one (diff); "Revert to saved" drops all edits; "Reload" reads the file again.
@@ -209,16 +210,30 @@ MSKTerm detects which archivers are installed on the server, remembers the resul
 
 > Changing `sshd_config` is an administrative operation. It needs root/sudo rights; on critical servers keep an independent fallback access method.
 
-### 9. Import and export of connections
+### 9. Secure notes
 
-**Own encrypted `.msktx` format** ("Import/export" menu):
+Cards on the home screen next to connections: text, website link, login, password and SSH key in one place under the master password.
+
+- Create, edit, search and delete with confirmation; on a save error the draft stays editable.
+- Login, password and key are hidden by default; reveal and copy use separate buttons. Fields hide again when the window loses focus.
+- Copied values are cleared from the clipboard after 30 seconds if the clipboard content did not change.
+- Badges for Text, Link, Login, Password and SSH key show which fields are filled without revealing them; HTTP/HTTPS links open from the note.
+
+> After notes appear, the vault format needs MSKTerm **0.1.17+**. Exchange files that include notes also need 0.1.17+.
+
+### 10. Backup, import and export
+
+**Vault backup `.mskvault`:** a full snapshot of the vault (connections, keys, notes and protected settings), without external files or the separate editor history.
+
+**Encrypted exchange `.msktx`** ("Import/export" menu):
 
 ![Exporting connections](screenshots/15-export.png)
 
-- Export all connections or selected ones — SSH and COM; a single host can be exported from its context menu.
+- Export all connections or selected ones — SSH and COM; a single host from its context menu.
+- Selective note export (including without connections) and export of one note from its card.
 - Used jump hosts and keys are added automatically; optionally all vault keys.
 - The file is encrypted with the vault master password or a separate password.
-- Importing on another computer shows a preview. Entries are **added**, existing connections are never overwritten; matching keys are reused, links to jump hosts and keys are restored.
+- Import shows a preview with selective import of connections, keys and notes. Existing entries are **never overwritten**; a match can be added as a separate copy. On a write error previous data is kept.
 
 **Import from WinSCP:**
 
@@ -230,7 +245,7 @@ MSKTerm detects which archivers are installed on the server, remembers the resul
 
 **WinSCP limitations:** if a master password is enabled in WinSCP, disable it temporarily (WinSCP → Preferences → Security), otherwise the saved passwords cannot be read. WinSCP tunnels are not transferred: such hosts are marked in the preview, the jump host can be set up manually.
 
-### 10. Interface and languages
+### 11. Interface and languages
 
 - Dark theme, connection tabs with "Terminal", "Files", "Editor" workspaces ("COM" for serial).
 - Host groups, search, session counter and notifications in the status line.
@@ -239,7 +254,7 @@ MSKTerm detects which archivers are installed on the server, remembers the resul
 
 ![Settings](screenshots/16-settings.png)
 
-### 11. AI assistant (bring your own key)
+### 12. AI assistant (bring your own key)
 
 Optional helper on the **AI** tab of an active SSH session. The key and settings live in the encrypted vault; secrets and keys are always masked; hosts/e-mails are optional; **IPs are left unmasked by default** (useful for diagnostics — toggle in settings).
 
@@ -267,7 +282,8 @@ Optional helper on the **AI** tab of an active SSH session. The key and settings
 | Measure a folder size on the server | Σ Size / Alt+Enter (fast SSH, SFTP fallback) |
 | Diagnose a service / log | AI agent: expanded tools and edits with diff |
 | Set up key login | Generate, install, verify login, configure sshd |
-| Move connections to another PC | Encrypted `.msktx` |
+| Keep a login / password / link | Secure notes on the home screen |
+| Move connections and notes | `.msktx` / vault backup `.mskvault` |
 | Switch from WinSCP | Import of saved sites and keys |
 
 ## Known limitations
@@ -280,7 +296,8 @@ Optional helper on the **AI** tab of an active SSH session. The key and settings
 - Archiving requires suitable tools on the server.
 - WinSCP import does not transfer tunnels and does not work while the WinSCP master password is enabled.
 - Terminal emulation covers common programs but not every possible control sequence.
-- AI needs your API key and network access to the chosen provider; some flagship models prefer the Responses API — on Chat Completions, tools may require `reasoning_effort: none` (MSKTerm sets this for Luna/Sol).
+- AI needs your API key and network access to the chosen provider; reasoning level is selectable in settings for models that support it.
+- A `.mskvault` backup does not include external files or the separate editor history.
 
 ## License
 
