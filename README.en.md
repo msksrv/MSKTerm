@@ -6,9 +6,9 @@
 
 **One tool for servers, network gear and serial consoles.**
 
-MSKTerm is a Windows desktop application for everyday work. Connect to Linux servers over SSH, work with COM ports, transfer files over SFTP, edit configs, manage SSH keys and optionally ask an AI assistant in the same session — without constantly switching between programs.
+MSKTerm is a desktop app for Windows and Linux. Connect over SSH, work with serial ports, transfer files over SFTP, edit configs, manage SSH keys and optionally ask an AI assistant in the same session — without constantly switching between programs.
 
-**Version:** `0.1.20` · **Platform:** Windows 10 / 11 (x64) · **License:** free for non-commercial use
+**Version:** `0.1.21` · **Platforms:** Windows 10/11 x64 · Linux x86_64 · **License:** free for non-commercial use
 
 **[⬇ Download](https://github.com/msksrv/MSKTerm/releases/latest)** · **[Русский](README.md)**
 
@@ -28,19 +28,27 @@ It is not just "a terminal with extra buttons". It covers scenarios that matter 
 
 ## Download and run
 
-1. Download `mskterm-0.1.20.exe` from the [releases page](https://github.com/msksrv/MSKTerm/releases/latest).
-2. Verify the SHA-256 checksum (listed in the release notes):
-   ```powershell
-   Get-FileHash .\mskterm-0.1.20.exe -Algorithm SHA256
-   ```
-3. Run it. No installation needed — it is a single executable.
-4. On first start choose a master password: it encrypts the vault with your connections, passwords, keys and notes.
+Get the files from the [releases page](https://github.com/msksrv/MSKTerm/releases/latest). SHA-256 checksums are in the release notes.
 
-**Requirements:** Windows 10 or 11, 64-bit; a GPU with DirectX 12, Vulkan or OpenGL support (virtually any modern one).
+**Windows:** download `mskterm-0.1.21.exe`, verify the hash and run it (no installer).
 
-**Where data is stored:** `%APPDATA%\SSHClient\config` — the encrypted `vault.bin`, known server keys, editor history, UI settings. To keep data elsewhere (e.g. on a USB stick next to the program), set the `SSHCLIENT_CONFIG_DIR` environment variable to the desired folder.
+```powershell
+Get-FileHash .\mskterm-0.1.21.exe -Algorithm SHA256
+```
 
-> The executable is not code-signed, so Windows SmartScreen may warn on first start. Verify the SHA-256 and click "More info → Run anyway".
+**Linux (x86_64):** download `mskterm_0.1.21_amd64.deb` (Debian/Ubuntu):
+
+```bash
+sudo apt install ./mskterm_0.1.21_amd64.deb
+```
+
+On first start choose a master password: it encrypts the vault with connections, passwords, keys and notes. The vault, `.mskvault` backups and `.msktx` exchange files move between Windows and Linux.
+
+**Requirements:** Windows 10/11 x64 or Linux x86_64 (tested on Debian 12/13 and Ubuntu 26.10); a GPU with Vulkan/OpenGL (DirectX 12 on Windows as well). On Linux the window runs on native Wayland.
+
+**Where data is stored:** Windows — `%APPDATA%\SSHClient\config`; Linux — usually `~/.config/SSHClient`. To keep data elsewhere, set `SSHCLIENT_CONFIG_DIR`.
+
+> Windows: the executable is not code-signed, so SmartScreen may warn on first start. Verify the SHA-256 and click "More info → Run anyway".
 
 ## Features
 
@@ -288,7 +296,7 @@ Optional helper on the **AI** tab of an active SSH session. The key and settings
 
 ## Known limitations
 
-- Windows 10 / 11 only.
+- Ready builds: Windows 10/11 x64 and Linux x86_64.
 - COM reconnection follows the previous port name, not the adapter hardware ID.
 - SSH auto-reconnect does not run after an explicit Disconnect; a bad-password loop can be stopped with Stop.
 - The editor is meant for UTF-8 text files up to 5 MiB.
