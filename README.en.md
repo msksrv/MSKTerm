@@ -8,7 +8,7 @@
 
 MSKTerm is a desktop app for Windows and Linux. Connect over SSH, work with serial ports, transfer files over SFTP, edit configs, manage SSH keys and optionally ask an AI assistant in the same session — without constantly switching between programs.
 
-**Version:** `0.1.21` · **Platforms:** Windows 10/11 x64 · Linux x86_64 · **License:** free for non-commercial use
+**Version:** `0.1.21` · **Platforms:** Windows 7–11 · Linux x86_64 · **License:** free for non-commercial use
 
 **[⬇ Download](https://github.com/msksrv/MSKTerm/releases/latest)** · **[Русский](README.md)**
 
@@ -30,13 +30,15 @@ It is not just "a terminal with extra buttons". It covers scenarios that matter 
 
 Get the files from the [releases page](https://github.com/msksrv/MSKTerm/releases/latest). SHA-256 checksums are in the release notes.
 
-**Windows:** download `mskterm-0.1.21.exe`, verify the hash and run it (no installer).
+**Windows 10/11 (x64):** `mskterm-0.1.21.exe` — main build, no installer.
 
 ```powershell
 Get-FileHash .\mskterm-0.1.21.exe -Algorithm SHA256
 ```
 
-**Linux (x86_64):** download `mskterm_0.1.21_amd64.deb` (Debian/Ubuntu):
+**Windows 7 / 8.1 (Legacy):** separate builds `MSKTerm-0.1.21-Windows-Legacy-x64.exe` and `MSKTerm-0.1.21-Windows-Legacy-x86.exe`.
+
+**Linux (x86_64):** `mskterm_0.1.21_amd64.deb` (Debian/Ubuntu):
 
 ```bash
 sudo apt install ./mskterm_0.1.21_amd64.deb
@@ -44,7 +46,7 @@ sudo apt install ./mskterm_0.1.21_amd64.deb
 
 On first start choose a master password: it encrypts the vault with connections, passwords, keys and notes. The vault, `.mskvault` backups and `.msktx` exchange files move between Windows and Linux.
 
-**Requirements:** Windows 10/11 x64 or Linux x86_64 (tested on Debian 12/13 and Ubuntu 26.10); a GPU with Vulkan/OpenGL (DirectX 12 on Windows as well). On Linux the window runs on native Wayland.
+**Requirements:** Windows 10/11 x64 (main build), Windows 7/8.1 x64 or x86 (Legacy), or Linux x86_64 (tested on Debian 12/13 and Ubuntu 26.10). A GPU with Vulkan/OpenGL (DirectX 12 on modern Windows as well). On Linux the window runs on native Wayland.
 
 **Where data is stored:** Windows — `%APPDATA%\SSHClient\config`; Linux — usually `~/.config/SSHClient`. To keep data elsewhere, set `SSHCLIENT_CONFIG_DIR`.
 
@@ -296,7 +298,7 @@ Optional helper on the **AI** tab of an active SSH session. The key and settings
 
 ## Known limitations
 
-- Ready builds: Windows 10/11 x64 and Linux x86_64.
+- Ready builds: Windows 10/11 x64, Windows 7/8.1 Legacy (x64 and x86), and Linux x86_64.
 - COM reconnection follows the previous port name, not the adapter hardware ID.
 - SSH auto-reconnect does not run after an explicit Disconnect; a bad-password loop can be stopped with Stop.
 - The editor is meant for UTF-8 text files up to 5 MiB.
